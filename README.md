@@ -4,7 +4,7 @@ iOS App: DiscoverFlix - Discover, search, and favorite movies now playing, trend
 ## Note: 
 Animation glitches as seen below in Contacts/EventKit are not present on real device. Works great in portrait and landscape, all sizes.
 
-![main](main.gif)____
+![main](main.gif)____![other](other.gif)
 
 ## In progress:
 - Add streaming providers list for movies
