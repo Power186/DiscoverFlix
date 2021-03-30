@@ -19,7 +19,7 @@ Animation glitches as seen below in Contacts/EventKit are not present on real de
 
 ## Built with:
 * Swift
-* SwiftUI  * UIKit  * EventKit * Contacts  * Combine  * Core Data  * UserDefaults  * NSCache  * XCTest
+* SwiftUI  * UIKit  * EventKit * ContactsUI * MessageUI  * Combine  * Core Data  * UserDefaults  * NSCache  * XCTest
 * MVVM
 * Alamofire
 * Generic Network Calls
