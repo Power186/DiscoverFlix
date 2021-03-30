@@ -14,12 +14,12 @@ struct MovieBuddyDetailView: View {
                   sortDescriptors: [])
     var favorites: FetchedResults<Favorite>
     
-    @State private var movieTitle = ""
-    @State private var movieTrailerUrlString = ""
-    @State private var movieVoteAverage: Double = 0
+    @ObservedObject var userSettings = UserDefaultsController()
     
+    @State private var phoneNumber = ""
     @State private var showEvent = false
     @State private var movieSelection = 0
+    @State private var showMessage = false
 //    let person: Person
     let buddy: Buddy
     
@@ -30,13 +30,13 @@ struct MovieBuddyDetailView: View {
                     Text("\(favorites[favorite].titleWithLanguage ?? "")")
                         .onAppear(perform: {
                             let title = favorites[favorite].titleWithLanguage ?? ""
-                            movieTitle = title
+                            userSettings.movieTitle = title
                             
                             let trailerUrlString = favorites[favorite].trailerUrlString ?? ""
-                            movieTrailerUrlString = trailerUrlString
+                            userSettings.movieUrlString = trailerUrlString
                             
                             let voteAverage = favorites[favorite].voteAverage
-                            movieVoteAverage = voteAverage
+                            userSettings.movieVoteAverage = voteAverage
                         })
                 }
             }
@@ -70,9 +70,16 @@ struct MovieBuddyDetailView: View {
                 Spacer()
             }
             
-            Section(header: Text("Phone").bold().italic()) {
+            Section(header: Text("Call").bold().italic()) {
                 HStack(spacing: 10) {
-                    phoneButton
+                    callButton
+                    Text(buddy.phone ?? "")
+                }
+            }
+            
+            Section(header: Text("Message").bold().italic()) {
+                HStack(spacing: 10) {
+                    messageButton
                     Text(buddy.phone ?? "")
                 }
             }
@@ -84,14 +91,27 @@ struct MovieBuddyDetailView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showEvent, content: {
-            EventView(movieTitle: $movieTitle,
-                      movieUrlString: $movieTrailerUrlString,
-                      movieVoteAverage: $movieVoteAverage)
+            EventView()
         })
         
     }
     
-    private var phoneButton: some View {
+    private var messageButton: some View {
+        Button(action: {
+            showMessage.toggle()
+        }) {
+            Image(systemName: "message.fill")
+                .imageScale(.large)
+        }
+        .onAppear(perform: {
+            phoneNumber = buddy.phone ?? ""
+        })
+        .sheet(isPresented: $showMessage, content: {
+            MessageView(phoneNumber: $phoneNumber)
+        })
+    }
+    
+    private var callButton: some View {
         Button(action: {
             openURL(phoneUrl())
         }) {

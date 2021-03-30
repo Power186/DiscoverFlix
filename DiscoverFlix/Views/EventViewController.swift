@@ -10,9 +10,7 @@ import EventKitUI
 
 struct EventView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var movieTitle: String
-    @Binding var movieUrlString: String
-    @Binding var movieVoteAverage: Double
+    @ObservedObject var userSettings = UserDefaultsController()
     
     class Coordniator: NSObject,
                        EKEventViewDelegate,
@@ -45,13 +43,15 @@ struct EventView: UIViewControllerRepresentable {
             if success, error == nil {
                 DispatchQueue.main.async {
                     let newEvent = EKEvent(eventStore: store)
-                    newEvent.title = movieTitle
+                    
+                    newEvent.title = userSettings.movieTitle
                     newEvent.startDate = Date()
                     newEvent.endDate = Date()
                     
-                    guard let movieUrl = URL(string: movieUrlString) else { return }
+                    guard let movieUrl = URL(string: userSettings.movieUrlString) else { return }
                     newEvent.url = movieUrl
-                    newEvent.notes = "\(movieTitle) has a \(movieVoteAverage) / 10 average rating."
+                    newEvent.notes = "\(userSettings.movieTitle) has a \(userSettings.movieVoteAverage) / 10 average rating."
+                    newEvent.location = "Streaming Service Provider"
                     
                     eventEditVC.eventStore = store
                     eventEditVC.event = newEvent

@@ -42,12 +42,8 @@ struct MovieDetailView: View {
     }
     
     private var backgroundView: some View {
-        imageView
-            .onAppear(perform: {
-                loader.load()
-            })
-            .blur(radius: 100)
-            .foregroundColor(Color.gray.opacity(0.75))
+        Color.gray.opacity(0.35)
+            .edgesIgnoringSafeArea(.all)
     }
     
     private var imageView: some View {
@@ -60,6 +56,9 @@ struct MovieDetailView: View {
                     .foregroundColor(Color.gray.opacity(0.4))
             }
         }
+        .onAppear(perform: {
+            loader.load()
+        })
     }
     
     private var headerView: some View {
@@ -95,7 +94,7 @@ struct MovieDetailView: View {
     private var movieOverView: some View {
         Text(movie.overview ?? "-")
             .font(.body)
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.top, 16)
     }
@@ -107,12 +106,12 @@ struct MovieDetailView: View {
                 HStack {
                     Image(systemName: "list.star")
                         .imageScale(.medium)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.purple)
                     
                     Text("Reviews")
                         .font(.callout)
                         .fontWeight(.medium)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     Spacer()
                 }
             }
@@ -131,17 +130,15 @@ struct MovieDetailView: View {
                 let movieUrlString = "https://www.youtube.com/watch?v=\(key)"
                 favorite.trailerUrlString = movieUrlString
                 PersistenceController.shared.save()
-                
             }) {
                 Image(systemName: "plus")
                     .imageScale(.medium)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.purple)
                 Text("Favorite")
                     .font(.callout)
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
-            
             Divider()
         }
     }
@@ -149,7 +146,9 @@ struct MovieDetailView: View {
     private var castInfo: some View {
         VStack(alignment: .leading) {
             Text("CAST")
+                .padding(8)
                 .foregroundColor(.primary)
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 20) {
                     ForEach(movieManager.cast) { cast in
@@ -170,7 +169,7 @@ struct MovieDetailView: View {
                             
                             Text("\(cast.name ?? "-") as \(cast.character ?? "-")")
                                 .font(.caption)
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                                 .frame(width: 100)
                                 .fixedSize(horizontal: false, vertical: true)
 

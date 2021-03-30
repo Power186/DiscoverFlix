@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to schedule a movie</string>
+	<string>This app needs access to set a location</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>This app needs access to schedule a movie</string>
 	<key>NSCalendarsUsageDescription</key>
